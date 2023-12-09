@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Diary
+{% endblock %}
+
+{% block apology %}
+    <h1 class="apology">{{ apology }}</h1>
+{% endblock %}
+
+{% block main %}
+    <form action="/diary" method="post">
+        <div class="mb-1">
+            <h3>Entry Date:</h3>
+            <input autocomplete="off" class="date form-control mx-auto w-auto" id="date" name="date" placeholder="Date" type="date">
+        </div>
+        <div class="mb-3">
+            <p>Leave blank if you wish to use todays date!!</p>
+        </div>
+
+        <div class="mb-3">
+            <h3>Diary Entry:</h3>
+            <textarea autocomplete="off" class="form-control mx-auto w-auto" id="entry" name="entry" placeholder="What's on your mind {{ name }}?!" type="text" style=" min-width:50px; max-width:100%" cols = "100"></textarea>
+        </div>
+
+        <div class="mb-1">
+            <h3>Enter your Mood:</h3>
+            <p>You can select more than one option</p>
+            <div class="container-flex" style="text-align: left">
+              <div class="row">
+
+                <div class="col-md-6 col-lg-3">
+
+                  <label class="container" for="energy">Energy
+                    <input type="checkbox" id="energy" name="mood" value="energy" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="excited">Excited
+                    <input type="checkbox" id="excited" name="mood" value="excited" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="adventurous">Adventurous
+                    <input type="checkbox" id="adventurous" name="mood" value="adventurous" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="stressed">Stressed
+                    <input type="checkbox" id="stressed" name="mood" value="stressed" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="nervous">Nervous
+                    <input type="checkbox" id="nervous" name="mood" value="nervous" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="tense">Tense
+                    <input type="checkbox" id="tense" name="mood" value="tense" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="calm">Calm
+                    <input type="checkbox" id="calm" name="mood" value="calm" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                  <label class="container" for="relaxed">Relaxed
+                    <input type="checkbox" id="relaxed" name="mood" value="relaxed" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="loveable">Loveable
+                    <input type="checkbox" id="loveable" name="mood" value="loveable" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="unsettled">Unsettled
+                    <input type="checkbox" id="unsettled" name="mood" value="unsettled" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="mixed">Mixed
+                    <input type="checkbox" id="mixed" name="mood" value="mixed" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="emotions">Emotions
+                    <input type="checkbox" id="emotions" name="mood" value="emotions" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="veryNervous">Very Nervous
+                    <input type="checkbox" id="veryNervous" name="mood" value="very-nervous" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="anxious">Anxious
+                    <input type="checkbox" id="anxious" name="mood" value="anxious" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                  <label class="container" for="fear">Fear
+                    <input type="checkbox" id="fear" name="mood" value="fear" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="uncertain">Uncertain
+                    <input type="checkbox" id="uncertain" name="mood" value="uncertain" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="daring">Daring
+                    <input type="checkbox" id="daring" name="mood" value="daring" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="stimulating">Stimulating
+                    <input type="checkbox" id="stimulating" name="mood" value="stimulating" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="restless">Restless
+                    <input type="checkbox" id="restless" name="mood" value="restless" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="imaginative">Imaginative
+                    <input type="checkbox" id="imaginative" name="mood" value="imaginative" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="clarity">Clarity
+                    <input type="checkbox" id="clarity" name="mood" value="clarity" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                  <label class="container" for="sensual">Sensual
+                    <input type="checkbox" id="sensual" name="mood" value="sensual" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="normal">Normal
+                    <input type="checkbox" id="normal" name="mood" value="normal" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="average">Average
+                    <input type="checkbox" id="average" name="mood" value="average" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="bored">Bored
+                    <input type="checkbox" id="bored" name="mood" value="bored" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <label class="container" for="frustrated">Frustrated
+                    <input type="checkbox" id="frustrated" name="mood" value="frustrated" class="mood">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+                
+              </div>
+            </div>
+
+        <button class="btn btn-primary" type="submit">Enter into Diary</button>
+    </form>
+{% endblock %}

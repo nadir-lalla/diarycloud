@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block main %}
+    <h1>WELCOME {{ name | upper }}!</h1>
+    <h4>This is your personal diary. Here you can keep track of your daily thoughts and moods</h4>
+    <p>To see an overview - Select the Month and Year you wish</p>
+
+    <form action="/" method="post">
+        <select class="month" name="month" id="month" value=datetime.now().month>
+            <option value="0">Select a Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+        <input type="number" name="year" id="year" placeholder="Year" min="2000" max="2050" value="2023" autocomplete="off">
+        <textarea class="form-control" aria-label="With textarea" name="input-text" id="input-text" value="{{ text_db }}" hidden></textarea>
+        <button class="btn btn-primary" id="view" type="submit">View</button>
+    </form>
+    <br>
+
+
+  <div id="cloud-container">
+
+  </div>
+
+
+
+  <!-- AnyChart Base Script -->
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <!-- AnyChart Word Cloud Script -->
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+  <script>
+    let text_from_db = "{{ text_db }}"
+  </script>
+  <script src="/static/script.js"></script>
+
+
+
+
+
+
+
+{% endblock %}

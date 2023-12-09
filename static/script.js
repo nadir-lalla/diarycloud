@@ -57,10 +57,10 @@
 
   var options = {
     list: uniqueWordsWithCounts,
-    shape: 'square',
-    fontWeight: "bold",
+    shape: 'block',
+    fontWeight: "20",
     color: "random-dark",
-    minFontSize: 'x-large',
+    minFontSize: 'large',
     weightFactor: 20,
     drawOutOfBound: false,
     gridMinSize: Math.round(document.getElementById('cloud-container').clientWidth),

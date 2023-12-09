@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block apology %}
-    <h1 class="apology">{{ apology }}</h1>
+    <h2 class="apology">{{ apology }}</h2>
 {% endblock %}
 
 {% block main %}
@@ -15,7 +15,7 @@
             <input autocomplete="off" class="date form-control mx-auto w-auto" id="date" name="date" placeholder="Date" type="date">
         </div>
         <div class="mb-3">
-            <p>Leave blank if you wish to use todays date!!</p>
+            <p>You can leave blank to submit for TODAY!</p>
         </div>
 
         <div class="mb-3">
@@ -26,10 +26,10 @@
         <div class="mb-1">
             <h3>Enter your Mood:</h3>
             <p>You can select more than one option</p>
-            <div class="container-flex" style="text-align: left">
+            <div class="container-fluid" style="text-align: left">
               <div class="row">
 
-                <div class="col-md-6 col-lg-3">
+                <div class="col-sm-6 col-lg-3">
 
                   <label class="container" for="energy">Energy
                     <input type="checkbox" id="energy" name="mood" value="energy" class="mood">
@@ -67,7 +67,7 @@
                   </label>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+                <div class="col-sm-6 col-lg-3">
                   <label class="container" for="relaxed">Relaxed
                     <input type="checkbox" id="relaxed" name="mood" value="relaxed" class="mood">
                     <span class="checkmark"></span>
@@ -83,13 +83,13 @@
                     <span class="checkmark"></span>
                   </label>
 
-                  <label class="container" for="mixed">Mixed
-                    <input type="checkbox" id="mixed" name="mood" value="mixed" class="mood">
+                  <label class="container" for="mixedEmotions">Mixed Emotions
+                    <input type="checkbox" id="mixed" name="mood" value="mixed-emotions" class="mood">
                     <span class="checkmark"></span>
                   </label>
 
-                  <label class="container" for="emotions">Emotions
-                    <input type="checkbox" id="emotions" name="mood" value="emotions" class="mood">
+                  <label class="container" for="frustrated">Frustrated
+                    <input type="checkbox" id="frustrated" name="mood" value="frustrated" class="mood">
                     <span class="checkmark"></span>
                   </label>
 
@@ -104,7 +104,9 @@
                   </label>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+
+
+                <div class="col-sm-6 col-lg-3">
                   <label class="container" for="fear">Fear
                     <input type="checkbox" id="fear" name="mood" value="fear" class="mood">
                     <span class="checkmark"></span>
@@ -141,7 +143,7 @@
                   </label>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+                <div class="col-sm-6 col-lg-3">
                   <label class="container" for="sensual">Sensual
                     <input type="checkbox" id="sensual" name="mood" value="sensual" class="mood">
                     <span class="checkmark"></span>
@@ -162,15 +164,13 @@
                     <span class="checkmark"></span>
                   </label>
 
-                  <label class="container" for="frustrated">Frustrated
-                    <input type="checkbox" id="frustrated" name="mood" value="frustrated" class="mood">
-                    <span class="checkmark"></span>
-                  </label>
+
                 </div>
+
                 
               </div>
             </div>
 
-        <button class="btn btn-primary" type="submit">Enter into Diary</button>
+        <button class="btn btn-dark" type="submit">Enter into Diary</button>
     </form>
 {% endblock %}

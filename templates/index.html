@@ -4,10 +4,15 @@
     {{ name }}
 {% endblock %}
 
+{% block apology %}
+    <h2 class="apology">{{ apology }}</h2>
+{% endblock %}
+
+
 {% block main %}
     <h1>WELCOME {{ name | upper }}!</h1>
-    <h4>This is your personal diary. Here you can keep track of your daily thoughts and moods</h4>
-    <p>To see an overview - Select the Month and Year you wish</p>
+    <p>To generate your WordCloud - Select the Month and Year</p>
+    <p class="small text-center text-muted">Current WordCloud: {{ month }} {{ year }}</p>
 
     <form action="/" method="post">
         <select class="month" name="month" id="month" value=datetime.now().month>
@@ -26,10 +31,13 @@
             <option value="12">December</option>
         </select>
         <input type="number" name="year" id="year" placeholder="Year" min="2000" max="2050" value="2023" autocomplete="off">
-        <textarea class="form-control" aria-label="With textarea" name="input-text" id="input-text" value="{{ text_db }}" hidden></textarea>
-        <button class="btn btn-primary" id="view" type="submit">View</button>
+        <br>
+        <button class="btn btn-dark" id="view" type="submit">View</button>
     </form>
-    <br>
+
+    <p class="small text-center text-muted">
+      Click here to read the <a href="/howto">"How To"</a> page
+    </p>
 
 
   <div id="cloud-container">

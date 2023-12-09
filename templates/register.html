@@ -4,6 +4,10 @@
     Register
 {% endblock %}
 
+{% block apology %}
+    <h2 class="apology">{{ apology }}</h2>
+{% endblock %}
+
 {% block main %}
     <form action="/register" method="post">
         <div class="mb-3">

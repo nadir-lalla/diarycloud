@@ -1,4 +1,4 @@
-import os
+import calendar
 from datetime import datetime
 from cs50 import SQL
 from flask import Flask, redirect, render_template, request, session
@@ -28,6 +28,7 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 ##############
 #     INDEX
 ##############
@@ -36,9 +37,9 @@ def after_request(response):
 def index():
     """Cover page of word map"""
     userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    apology = ""
 
     if request.method == "GET":
-
         date = datetime.now()
         month = date.month
         year = date.year
@@ -51,6 +52,10 @@ def index():
     if request.method == "POST":
         month = request.form.get('month')
         year = request.form.get('year')
+
+        if int(month) == 0:
+            date = datetime.now()
+            month = date.month
 
         try:
             text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
@@ -67,8 +72,7 @@ def index():
     if len(text_string) == 0:
         text_string = "Welcome to your WordCloud Diary"
 
-
-    return render_template("index.html", name=userid, text_db=text_string)
+    return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
 
 ##############
@@ -84,11 +88,8 @@ def diary():
         entry = request.form.get('entry')
         mood = " ".join(request.form.getlist('mood'))
 
-        print(entry)
-        print(mood)
-
         if not entry and not mood:
-            return render_template("diary.html", name=userid, apology="No diary or mood entry")
+            return render_template("diary.html", name=userid, apology="No Diary or Mood entry submitted. Try again!")
 
         try:
             date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
@@ -98,13 +99,10 @@ def diary():
         day = date.day
         month = date.month
         year = date.year
-        print(day, month, year)
 
         date_db = db.execute("SELECT * FROM userdata WHERE day = ? AND month = ? AND year = ?;", day, month, year)
-        print("DB LEN: ", len(date_db))
 
         if len(date_db) == 0:
-
             # If no text or mood for the day. Add to db
             db.execute("INSERT INTO userdata (text, user_id, day, month, year, mood) VALUES (?);", (entry, session["user_id"], day, month, year, mood))
 
@@ -142,7 +140,7 @@ def images():
         img = request.form.get("img")
 
         if not note and not img:
-            return render_template("images.html", name=userid, apology="No entry found")
+            return render_template("images.html", name=userid, apology="No Note or Image submitted. Try again!")
 
         try:
             date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
@@ -155,11 +153,22 @@ def images():
         day = date.day
         month = date.month
         year = date.year
-        print("DD MM YYYY:  ",day, month, year,"\nNote: ",note,"\nimg Name: ", img )
+        # print("DD MM YYYY:  ",day, month, year,"\nNote: ",note,"\nimg Name: ", img )
 
         db.execute("INSERT INTO userdata (image, notes, user_id, day, month, year) VALUES (?);", (img, note, session["user_id"], day, month, year))
 
     return render_template("images.html", name=userid)
+
+
+
+#########################
+#     HOW TO
+#########################
+@app.route("/howto")
+def howto():
+    """How To page"""
+
+    return render_template("/howto.html")
 
 
 
@@ -178,11 +187,13 @@ def login():
     if request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
-            return render_template("apology.html")
+            apology = "No username entered"
+            return render_template("login.html", apology=apology)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("apology.html")
+            apology = "No password entered"
+            return render_template("login.html", apology=apology)
 
         # Query database for username
         rows = db.execute(
@@ -193,7 +204,8 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["hash"], request.form.get("password")
         ):
-            return render_template("apology.html")
+            apology = "Incorrect password. Try again!"
+            return render_template("login.html", apology=apology)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -228,21 +240,28 @@ def register():
         confirm = request.form.get("confirmation")
 
         if not username:
-            return render_template("apology.html")
+            apology = "No username entered"
+            return render_template("register.html", apology=apology)
         if not name:
-            return render_template("apology.html")
+            apology = "No name entered"
+            return render_template("register.html", apology=apology)
         elif not password:
-            return render_template("apology.html")
+            apology = "No password entered"
+            return render_template("register.html", apology=apology)
         elif not confirm:
-            return render_template("apology.html")
+            apology = "No password confimation entered"
+            return render_template("register.html", apology=apology)
         elif password != confirm:
-            return render_template("apology.html")
+            apology = "Passwords to not match"
+            return render_template("register.html", apology=apology)
 
+        # Check if username already exists
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         count = len(rows)
 
         if count != 0:
-            return render_template("apology.html")
+            apology = "User already exists. Try a different username"
+            return render_template("register.html", apology=apology)
 
         # Enter into db
         db.execute(

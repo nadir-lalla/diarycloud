@@ -4,7 +4,20 @@
     Log In
 {% endblock %}
 
+{% block apology %}
+    <h2 class="apology">{{ apology }}</h2>
+{% endblock %}
+
 {% block main %}
+    <div>
+        <h2>Welcome to DiaryCloud</h2>
+        <img src="static/logo.png" alt="Logo of DiaryCloud" width="90%">
+        <p>DiaryCloud is a simple digital diary with a twist.</p>
+        <p>You will be able to generate a WordCloud of your thoughts and emotions</p>
+        <p></p>
+
+    </div>
+    <br>
     <form action="/login" method="post">
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
@@ -12,6 +25,10 @@
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
         </div>
-        <button class="btn btn-primary" type="submit">Log in</button>
+        <button class="btn btn-dark" type="submit">Log in</button>
     </form>
+
+    <p class="small text-center text-muted">
+        Need to Register? <a href="/regsiter">Register</a>
+    </p>
 {% endblock %}

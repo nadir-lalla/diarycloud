@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block apology %}
-    <h1 class="apology">{{ apology }}</h1>
+    <h2 class="apology">{{ apology }}</h2>
 {% endblock %}
 
 {% block main %}
@@ -16,7 +16,7 @@
                   <input autocomplete="off" class="form-control mx-auto w-auto" id="date" name="date" placeholder="Date" type="date">
               </div>
               <div class="mb-3">
-                  <p>Leave blank if you wish to use todays date!!</p>
+                  <p>You can leave blank to submit for TODAY!</p>
               </div>
 
               <div class="mb-3">
@@ -29,7 +29,7 @@
                   <textarea autocomplete="off" class="form-control mx-auto w-auto" id="note" name="note" placeholder="Enter a note or description for your image!" type="text" style=" min-width:50px; max-width:100%" cols="100"></textarea>
               </div>
 
-              <button class="btn btn-primary" type="submit">Upload Image and Submit Note</button>
+              <button class="btn btn-dark" type="submit">Upload Image and Submit Note</button>
           </form>
 
 

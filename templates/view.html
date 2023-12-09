@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    How To
+{% endblock %}
+
+{% block main %}
+    <div>
+        <h2>View Diary</h2>
+        <br>
+        <div class="diaryview">
+            {{ name }}
+            <br>
+            {% for row in text_db %}
+                {{row}}
+                <br>
+            {% endfor %}
+            <br>
+            {{ day }} {{ month }}{{ year }}
+            <br>
+            {{ apology }}
+
+
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

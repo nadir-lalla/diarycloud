@@ -41,27 +41,36 @@ def index():
 
     if request.method == "GET":
         date = datetime.now()
-        month = date.month
         year = date.year
 
         try:
-            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
+            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
         except:
             text_db = "No text found from GET"
+
+        text_string = ''
+        for entry in text_db:
+            for value in entry.values():
+                if value is not None:
+                    text_string += str(value) + ' '
+
+        return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
+
 
     if request.method == "POST":
         month = request.form.get('month')
         year = request.form.get('year')
 
         if int(month) == 0:
-            date = datetime.now()
-            month = date.month
-
-        try:
-            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
-        except:
-            text_db = "No text found from POST"
-
+            try:
+                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+            except:
+                text_db = "No text found from POST"
+        else:
+            try:
+                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
+            except:
+                text_db = "No text found from POST"
 
     text_string = ''
     for entry in text_db:
@@ -159,16 +168,60 @@ def images():
 
     return render_template("images.html", name=userid)
 
+##############
+#     VIEW
+##############
+@app.route("/view", methods=["GET"])
+@login_required
+def view():
+    """Page see your previous diary entries"""
+    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    apology = ""
+
+    if request.method == "GET":
+        date = datetime.now()
+        year = date.year
+        month = date.month
+        day = date.day
+
+        try:
+            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+        except:
+            text_db = "No text found from GET"
+
+        return render_template("view.html", name=userid, text_db=text_db, day=day, month=month, year=year, apology=apology) 
 
 
+    if request.method == "POST":
+        month = request.form.get('month')
+        year = request.form.get('year')
+        month = request.form.get('month')
+        day = request.form.get('day')
+
+
+        if int(month) == 0:
+            try:
+                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+            except:
+                text_db = "No text found from POST"
+        else:
+            try:
+                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
+            except:
+                text_db = "No text found from POST"
+
+        if len(text_string) == 0:
+            text_string = "Nothing here"
+
+        return render_template("view.html", name=userid, text_db=text_db, day=day, month=month, year=year, apology=apology) 
+
 #########################
-#     HOW TO
+#     ABOUT
 #########################
-@app.route("/howto")
-def howto():
+@app.route("/about")
+def about():
     """How To page"""
-
-    return render_template("/howto.html")
+    return render_template("/about.html")
 
 
 

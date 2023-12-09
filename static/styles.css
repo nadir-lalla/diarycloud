@@ -6,6 +6,7 @@
 nav .navbar-brand
 {
     font-size: xx-large;
+    filter: invert(1);
 }
 
 input {
@@ -33,7 +34,7 @@ h3 {
 
 
 
-div.how-to {
+div.about {
   background-color: inherit;
   text-align: left;
   padding-left: 5%;

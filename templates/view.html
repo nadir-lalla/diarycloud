@@ -12,11 +12,11 @@
             {{ name }}
             <br>
             {% for row in text_db %}
-                {{row}}
+                {{ row.mood }}
                 <br>
             {% endfor %}
             <br>
-            {{ day }} {{ month }}{{ year }}
+            {{ day }} {{ month }} {{ year }}
             <br>
             {{ apology }}
 

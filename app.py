@@ -52,6 +52,10 @@ def index():
                 if value is not None:
                     text_string += str(value) + ' '
 
+        if len(text_string) == 0:
+            text_string = "Welcome to your WordCloud Diary"
+        apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+
         return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
 
 
@@ -78,6 +82,7 @@ def index():
 
     if len(text_string) == 0:
         text_string = "Welcome to your WordCloud Diary"
+        apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
 
     return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 

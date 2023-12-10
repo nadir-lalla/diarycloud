@@ -11,14 +11,38 @@
         <div class="about">
 
             <h4>Introduction</h4>
-            <p>Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions. The interface can be used to support the user in their mental health journey by visualising their mental health.
+            <p>Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions.
+                You are able to visualise your thoughts, moods and emotions
             </p>
             <br>
             
             <h4>How it works</h4>
-            <p>In the <a href="/diary">Diary</a> tab, you can make an entry into your personal diary and also select your moods/emotions. This is your priavte data and cannot be seen by other users</p>
-            <p>Your homepage will generate a WordCloud for the current month by default, the size of the text will determine the size of the word you see in the WordCloud</p>
-            <p>You are able to change the month and year to see a</p>
+            <ul>
+                <li>In the <a href="/diary">Diary</a> tab, you can make an entry into your personal diary and also select your moods/emotions. This is your priavte data and cannot be seen by other users</li>
+                <li>Your <a href="/">homepage</a> will generate a WordCloud using your diary entries and notes, the size of the words will be determined by how many times each word occues in your entries</li>
+                <li>You are able to <a href="/view">view</a> your diary entires as well as your moods and emotions. You can filter by day, month and year</li>
+                <li>You are able to change the month and year to see a WordCloud for the selected date. By default, the WordCloud will be for the current year.</li>
+            </ul>
+            <br>
+
+            <h4>Diary</h4>
+            <ul>
+                <li>Select the date you wish to make an entry, by default it will use todays date. </li>
+                <li>Make an entry into your diary. You can leave it blank if you wish</li>
+                <li>Select your moods/emotions. You can leave it blank if you wish</li>
+                <li>You will get an error if both the diary entry and mood entry are blank. Theres no point uploading noting!</li>
+                <li>You can make multiple entries for any chosen day</li>
+            </ul>
+            <br>
+
+            <h4>View</h4>
+            <ul>
+                <li>Select the date you wish to view, by default it will use todays date. </li>
+                <li>If you do not select a month it will default to the current month</li>
+                <li>If you do not select a day, it will display all for the whole month selected</li>
+                <li>If you do not select a month or day, it will display all entries for the year selected </li>
+                <li>If there are no entries found on the selected date, you will be promted with a message at the top of the page</li>
+            </ul>
             <br>
 
         </div>

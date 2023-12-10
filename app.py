@@ -19,7 +19,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///user.db")
 
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -27,7 +26,6 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
-
 
 ##############
 #     INDEX
@@ -44,7 +42,7 @@ def index():
         year = date.year
 
         try:
-            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+            text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
         except:
             text_db = "No text found from GET"
 
@@ -63,12 +61,12 @@ def index():
 
         if int(month) == 0:
             try:
-                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+                text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
             except:
                 text_db = "No text found from POST"
         else:
             try:
-                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
+                text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
             except:
                 text_db = "No text found from POST"
 
@@ -136,7 +134,8 @@ def diary():
 
 
 #########################
-#     NOTES AND IMAGE
+#       NOTES AND IMAGE 
+#       NOT IMPLEMENTED - FUTURE UPDATE
 #########################
 @app.route("/images", methods=["GET", "POST"])
 @login_required
@@ -164,14 +163,14 @@ def images():
         year = date.year
         # print("DD MM YYYY:  ",day, month, year,"\nNote: ",note,"\nimg Name: ", img )
 
-        db.execute("INSERT INTO userdata (image, notes, user_id, day, month, year) VALUES (?);", (img, note, session["user_id"], day, month, year))
+        db.execute("INSERT INTO userdata (image, user_id, day, month, year) VALUES (?);", (img, note, session["user_id"], day, month, year))
 
     return render_template("images.html", name=userid)
 
 ##############
 #     VIEW
 ##############
-@app.route("/view", methods=["GET"])
+@app.route("/view", methods=["GET", "POST"])
 @login_required
 def view():
     """Page see your previous diary entries"""
@@ -185,11 +184,12 @@ def view():
         day = date.day
 
         try:
-            text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day, month, year)
         except:
             text_db = "No text found from GET"
 
-        return render_template("view.html", name=userid, text_db=text_db, day=day, month=month, year=year, apology=apology) 
+        print(text_db)
+        return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 
 
 
     if request.method == "POST":
@@ -198,22 +198,25 @@ def view():
         month = request.form.get('month')
         day = request.form.get('day')
 
+        print(day,month,year)
 
-        if int(month) == 0:
-            try:
-                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
-            except:
-                text_db = "No text found from POST"
+        if int(month) == 0 and not day:
+            apology = "No day or month selected. Showing diary of " + year
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'], year)
+        elif day and int(month) == 0:
+            month = datetime.now().month
+            apology = "No month selected. Using Current month"
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day , month, year)
+        elif not day:
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'], month, year)
         else:
-            try:
-                text_db = db.execute("SELECT mood, notes, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
-            except:
-                text_db = "No text found from POST"
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day, month, year)
 
-        if len(text_string) == 0:
-            text_string = "Nothing here"
 
-        return render_template("view.html", name=userid, text_db=text_db, day=day, month=month, year=year, apology=apology) 
+        if len(text_db) == 0:
+            apology = "No entries found"
+            
+        return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 
 
 #########################
 #     ABOUT

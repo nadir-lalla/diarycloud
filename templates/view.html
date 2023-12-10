@@ -4,25 +4,76 @@
     How To
 {% endblock %}
 
+{% block apology %}
+    <p class="apology">{{ apology }}</p>
+{% endblock %}
+
 {% block main %}
     <div>
-        <h2>View Diary</h2>
+        <form action="/view" method="post">
+            <p>Select the date you want to view: </p>
+            <input type="number" name="day" id="day" placeholder="Day" min="1" max="31" autocomplete="off">
+            <select class="month" name="month" id="month" value="{{ month }}">
+                <option value="0">Select a Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+            <input type="number" name="year" id="year" placeholder="Year" min="2000" max="2050" value="{{ year }}" autocomplete="off">
+            <br>
+            <button class="btn btn-dark" id="view" type="submit">View</button>
+        </form>
         <br>
+
+        <h4>Hello, {{ name }}! This is your diary for: {{ day }} {{ month }} {{ year }}</h4>
+    
         <div class="diaryview">
-            {{ name }}
-            <br>
-            {% for row in text_db %}
-                {{ row.mood }}
-                <br>
-            {% endfor %}
-            <br>
-            {{ day }} {{ month }} {{ year }}
-            <br>
-            {{ apology }}
-
-
-
+            <table class="table table-hover table-striped">
+                <thead style="background-color: black; color: white;">
+                    <tr>
+                        <th class="text-start">Date</th>
+                        <th class="text-start">Moods</th>
+                        <th class="text-start">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in text_db %}
+                        <tr>
+                            <td class="text-start">{{ row.day }}/{{ row.month }}/{{ row.year }}</td>
+                            <td class="text-start">
+                                {% if not row.mood %}
+                                    -
+                                {% else %}
+                                    {% for word in row.mood.split() %}
+                                        {{ word | capitalize }}
+                                        <br>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                            <td class="text-start">
+                                {% if not row.text %}
+                                    -
+                                {% else %}
+                                    {{ row.text }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+    
+            </table>
         </div>
+
+
 
 
     </div>

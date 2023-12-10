@@ -1,5 +1,7 @@
 # DiaryCloud
 
+![Logo for website](/static/logo.png)
+
 ## Introduction
 
 Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions. You are able to visualise your thoughts, moods and emotions
@@ -27,3 +29,9 @@ If you do not select a month it will default to the current month
 If you do not select a day, it will display all for the whole month selected
 If you do not select a month or day, it will display all entries for the year selected
 If there are no entries found on the selected date, you will be promted with a message at the top of the page
+
+## Running the code
+
+To import the packages needed to run the code, run:
+
+    pip install -r requirements.txt

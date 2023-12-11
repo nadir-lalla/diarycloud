@@ -36,7 +36,7 @@ def index():
     """Cover page of word map"""
     userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     apology = ""
-    print(userid)
+    # print(userid)
 
     if request.method == "GET":
         date = datetime.now()
@@ -137,6 +137,7 @@ def diary():
             else:
                 # print('both entry and mood')
                 db.execute("INSERT INTO userdata (mood, text, user_id, day, month, year) VALUES (?);", (mood, entry, session["user_id"], day, month, year))
+        return redirect("/")
 
     return render_template("diary.html", name=userid)
 
@@ -196,7 +197,7 @@ def view():
         except:
             text_db = "No text found from GET"
 
-        print(text_db)
+        # print(text_db)
         return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 
 
 
@@ -206,19 +207,19 @@ def view():
         month = request.form.get('month')
         day = request.form.get('day')
 
-        print(day,month,year)
+        # print(day,month,year)
 
         if int(month) == 0 and not day:
             apology = "No day or month selected. Showing diary of " + year
-            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'], year)
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND year=? ORDER BY year ASC, month ASC, day ASC;",session['user_id'], year)
         elif day and int(month) == 0:
             month = datetime.now().month
             apology = "No month selected. Using Current month"
-            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day , month, year)
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=? ORDER BY year ASC, month ASC, day ASC;",session['user_id'],day , month, year)
         elif not day:
-            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'], month, year)
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND month=? AND year=? ORDER BY year ASC, month ASC, day ASC;",session['user_id'], month, year)
         else:
-            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day, month, year)
+            text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=? ORDER BY year ASC, month ASC, day ASC;",session['user_id'],day, month, year)
 
 
         if len(text_db) == 0:

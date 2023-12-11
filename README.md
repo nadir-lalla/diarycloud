@@ -31,6 +31,8 @@ Execute a flask session using the following command:
 
 You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website
 
+***
+
 #### Description
 
 My project is a digital diary at its core, but it also has a fun element to it. ie. a WordCloud Generator built in. I have seen other digital diaries online and I've also seen various WordCloud Generators, but I've never seen both combined. That is where I got the idea and the name of my web application. The "Cloud" in the name refers to it being a digital/online diary, and also that it is able to generate a WordCloud.
@@ -53,6 +55,13 @@ In the templates folder there are various html files for each of the web pages:
 6. "view.html" generates a table of the users diary entries. By default, it will display the current date. Users can use the form element to filter wish time period they wish to view.
 7. "about.html" is a basic text based page that gives the user information on how the site works.
 
-In the root folder of the project there are various files that are required to run the website
+In the root folder of the project there are various files that are required to run the website:
+1. "app.py" the main file for the website
+2. "helper.html" used to create a function that is requires a user to be logged in.
+3. "user.db" a database that contains all the information for login details and diary entries.
+4. "requirements.txt" a text file that is used to install packages need to run the application using
+
+        pip install -r requirements.txt
+5. "package.json" and "package-lock.json", files installed from the wordcloud2.js package.
 
 

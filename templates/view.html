@@ -34,44 +34,47 @@
         </form>
         <br>
 
-        <h4>Hello, {{ name }}! This is your diary for: {{ day }} {{ month }} {{ year }}</h4>
-    
-        <div class="diaryview">
-            <table class="table table-hover table-striped">
-                <thead style="background-color: black; color: white;">
-                    <tr>
-                        <th class="text-start">Date</th>
-                        <th class="text-start">Moods</th>
-                        <th class="text-start">Text</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in text_db %}
+        {% if apology != "No entries found" %}
+            <h4>Hello, {{ name }}! This is your diary for: {{ day }} {{ month }} {{ year }}</h4>
+            <div class="diaryview">
+                <table class="table table-hover table-striped">
+                    <thead style="background-color: black; color: white;">
                         <tr>
-                            <td class="text-start">{{ row.day }}/{{ row.month }}/{{ row.year }}</td>
-                            <td class="text-start">
-                                {% if not row.mood %}
-                                    -
-                                {% else %}
-                                    {% for word in row.mood.split() %}
-                                        {{ word | capitalize }}
-                                        <br>
-                                    {% endfor %}
-                                {% endif %}
-                            </td>
-                            <td class="text-start">
-                                {% if not row.text %}
-                                    -
-                                {% else %}
-                                    {{ row.text }}
-                                {% endif %}
-                            </td>
+                            <th class="text-start">Date</th>
+                            <th class="text-start">Moods</th>
+                            <th class="text-start">Text</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-    
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {% for row in text_db %}
+                            <tr>
+                                <td class="text-start">{{ row.day }}/{{ row.month }}/{{ row.year }}</td>
+                                <td class="text-start">
+                                    {% if not row.mood %}
+                                        -
+                                    {% else %}
+                                        {% for word in row.mood.split() %}
+                                            {{ word | capitalize }}
+                                            <br>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                                <td class="text-start">
+                                    {% if not row.text %}
+                                        -
+                                    {% else %}
+                                        {{ row.text }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <h4>Hello, {{ name }}! You do not have any entries for: {{ day }} {{ month }} {{ year }}</h4>
+            <p>Head over to your <a href="/diary">diary</a> to make an entry</p>
+        {% endif %}
 
 
 

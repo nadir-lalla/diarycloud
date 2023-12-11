@@ -4,7 +4,7 @@ from cs50 import SQL
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from collections import Counter
+import re
 
 from helpers import login_required
 
@@ -34,7 +34,7 @@ def after_request(response):
 @login_required
 def index():
     """Cover page of word map"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     apology = ""
     print(userid)
 
@@ -50,12 +50,13 @@ def index():
         text_string = ''
         for entry in text_db:
             for value in entry.values():
-                if value is not None:
-                    text_string += str(value) + ' '
+                if value and value is not None:
+                    # Convert the value to string and remove all punctuations
+                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
 
-        if len(text_string) == 0:
-            text_string = "Welcome to your WordCloud Diary"
-        apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+            if len(text_string) == 0:
+                text_string = "Welcome to your WordCloud Diary"
+                apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
 
         return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
 
@@ -78,8 +79,9 @@ def index():
     text_string = ''
     for entry in text_db:
         for value in entry.values():
-            if value is not None:
-                text_string += str(value) + ' '
+            if value and value is not None:
+                # Convert the value to string and remove all punctuations
+                text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
 
     if len(text_string) == 0:
         text_string = "Welcome to your WordCloud Diary"
@@ -95,7 +97,7 @@ def index():
 @login_required
 def diary():
     """Page to input your thoughts"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
 
     if request.method == "POST":
         entry = request.form.get('entry')
@@ -147,7 +149,7 @@ def diary():
 @login_required
 def images():
     """Page to input your thoughts"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
 
     if request.method == "POST":
         note = request.form.get('note')
@@ -180,7 +182,7 @@ def images():
 @login_required
 def view():
     """Page see your previous diary entries"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
+    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     apology = ""
 
     if request.method == "GET":

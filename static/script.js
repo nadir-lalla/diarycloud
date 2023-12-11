@@ -57,14 +57,16 @@
 
   var options = {
     list: uniqueWordsWithCounts,
-    shape: 'block',
+    shape: 'square',
+    ellipticity: 0.65,
     fontWeight: "20",
     color: "random-dark",
-    minFontSize: 'large',
-    weightFactor: 20,
+    minFontSize: 'small',
+    weightFactor: 30,
     drawOutOfBound: false,
     gridMinSize: Math.round(document.getElementById('cloud-container').clientWidth),
     rotateRatio: 0.5,
+    backgroundColor: "white"
   }
 
   console.log(options);

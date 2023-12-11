@@ -45,7 +45,7 @@ def index():
         try:
             text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
         except:
-            text_db = "No text found from GET"
+            text_db = "No entries found"
 
         text_string = ''
         for entry in text_db:
@@ -54,9 +54,9 @@ def index():
                     # Convert the value to string and remove all punctuations
                     text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
 
-            if len(text_string) == 0:
-                text_string = "Welcome to your WordCloud Diary"
-                apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+        if len(text_string) == 0:
+            text_string = "Welcome to your WordCloud Diary"
+            apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
 
         return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
 
@@ -195,7 +195,10 @@ def view():
         try:
             text_db = db.execute("SELECT day, month, year, mood, text FROM userdata WHERE user_id=? AND day=? AND month=? AND year=?;",session['user_id'],day, month, year)
         except:
-            text_db = "No text found from GET"
+            text_db = "No entries found"
+        
+        if len(text_db) == 0:
+            apology = "No entries found"
 
         # print(text_db)
         return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 

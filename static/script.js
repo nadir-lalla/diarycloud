@@ -21,8 +21,6 @@
 
   console.log(filteredWords)
 
-
-
   // Function to count unique words in uppercase
   function countUniqueWords(filteredWords) {
     // Create an empty map to store word counts

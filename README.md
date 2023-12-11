@@ -2,6 +2,8 @@
 
 ![Logo for website](/static/logo.png)
 
+#### Video Demo: 
+
 ## Introduction
 
 Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions. You are able to visualise your thoughts, moods and emotions
@@ -28,3 +30,6 @@ Execute a flask session using the following command:
     flask run
 
 You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website
+
+#### Description
+

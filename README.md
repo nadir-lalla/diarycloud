@@ -32,6 +32,7 @@ Execute a flask session using the following command:
 You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website
 
 ***
+<details>
 
 #### Description
 
@@ -63,5 +64,7 @@ In the root folder of the project there are various files that are required to r
 
         pip install -r requirements.txt
 5. "*package.json*" and "*package-lock.json*", files installed from the wordcloud2.js package.
+
+</details>
 
 

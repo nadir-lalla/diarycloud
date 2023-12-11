@@ -36,6 +36,7 @@ def index():
     """Cover page of word map"""
     userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name'].capitalize()
     apology = ""
+    print(userid)
 
     if request.method == "GET":
         date = datetime.now()
@@ -297,7 +298,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        name = request.form.get("password")
+        name = request.form.get("display_name")
         confirm = request.form.get("confirmation")
 
         if not username:

@@ -30,8 +30,19 @@ Welcome to CloudDiary. A place where you can keep track of your daily thoughts, 
 + If you do not select a month or day, it will display all entries for the year selected
 + If there are no entries found on the selected date, you will be promted with a message at the top of the page
 
-## Running the code
+## Getting started
 
-To import the packages needed to run the code, run:
+Navigate to the project folder containing the app.py file:
+
+    cd [PATH]/project
+
+
+Next, import the packages needed. Run the following in the terminal:
 
     pip install -r requirements.txt
+
+Execute a flask session using the following command:
+
+    flask run
+
+You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website

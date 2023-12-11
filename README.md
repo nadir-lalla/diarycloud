@@ -6,7 +6,6 @@
 
 Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions. You are able to visualise your thoughts, moods and emotions
 
-
 ## How it works
 
 + In the Diary tab, you can make an entry into your personal diary and also select your moods/emotions. This is your priavte data and cannot be seen by other users

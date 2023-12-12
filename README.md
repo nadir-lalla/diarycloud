@@ -2,7 +2,7 @@
 
 ![Logo for website](/static/logo.png)
 
-#### Video Demo: 
+#### Video Demo: https://youtu.be/bVmudMXybjs
 
 ## Introduction
 

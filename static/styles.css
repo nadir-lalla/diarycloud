@@ -166,6 +166,7 @@ THIS IS FOR THE WORD CLOUD COINTAINER
   width: inherit;
   height: 50vw;
   padding: 2px;
+  cursor: url('/static/favicon/icons8-cloud-32.png'), pointer;
 }
 
 

@@ -35,27 +35,25 @@
         <button class="btn btn-dark" id="view" form="date" type="submit">View</button>
     </form>
 
-    <form action="/quickenntry" id="quickentry" method="post">
-      <div class="mb-3">
-          <textarea autocomplete="off" class="form-control mx-auto w-auto" id="entry" name="entry" placeholder="What's on your mind {{ name }}?!" type="text" style=" min-width:50px; max-width:100%" cols = "100"></textarea>
-      </div>
-      <button class="btn btn-dark" type="submit" form="quickentry">Enter into Diary</button>
-    </form>
-
     <p class="small text-center text-muted">
       Need help? <a href="/about">About</a> 
       <br>
       <a href="/diary">New diary entry</a>
     </p>
-
-    <button class="accordion">Make a Quick Entry</button>
+    <br>
+    <button class="accordion btn btn-dark">Make a Quick Entry</button>
       <div class="panel">
-        <p>Placeholder</p>
+        <form action="/quickentry" id="quickentry" method="post">
+          <div class="mb-3">
+              <textarea autocomplete="off" class="form-control mx-auto w-auto" id="entry" name="entry" placeholder="" type="text" style=" min-width:50px; max-width:100%" cols = "100"></textarea>
+          </div>
+          <button class="btn btn-dark" type="submit" form="quickentry">Enter into Diary</button>
+        </form>
       </div>
+  
 
 
-
-  <div id="cloud-container">
+  <div id="cloud-container" style="border: 2px black solid; margin-top: 10px; margin-bottom: 10px;">
 
   </div>
 
@@ -66,10 +64,9 @@
   <!-- AnyChart Word Cloud Script -->
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
 
-  <script>
-    let text_from_db = "{{ text_db }}"
-  </script>
+  <script>let text_from_db = "{{ text_db }}"</script>
   <script src="/static/script.js"></script>
+  <script src="/static/wordcloud.js"></script>
   <script src="/static/accordian.js"></script>
 
 

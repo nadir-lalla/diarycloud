@@ -62,6 +62,7 @@ def index():
 
 
     if request.method == "POST":
+        
         month = request.form.get('month')
         year = request.form.get('year')
 
@@ -76,19 +77,34 @@ def index():
             except:
                 text_db = "No text found from POST"
 
-    text_string = ''
-    for entry in text_db:
-        for value in entry.values():
-            if value and value is not None:
-                # Convert the value to string and remove all punctuations
-                text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
+        text_string = ''
+        for entry in text_db:
+            for value in entry.values():
+                if value and value is not None:
+                    # Convert the value to string and remove all punctuations
+                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
 
-    if len(text_string) == 0:
-        text_string = "Welcome to your WordCloud Diary"
-        apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+        if len(text_string) == 0:
+            text_string = "Welcome to your WordCloud Diary"
+            apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+        
+        return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
-    return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
+@app.route("/quickentry", methods=["POST"])
+@login_required
+def quickentry():
+    if request.method == "POST":
+        entry = request.form.get('entry')
+        day = datetime.now().day
+        month = datetime.now().month
+        year = datetime.now().year
 
+        if entry:
+            db.execute("INSERT INTO userdata (text, user_id, day, month, year) VALUES (?);", (entry, session["user_id"], day, month, year))
+        else:
+            return redirect('/diary')
+
+    return redirect('/')
 
 ##############
 #     DIARY

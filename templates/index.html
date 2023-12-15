@@ -14,7 +14,7 @@
     <p>To generate your WordCloud - Select the Month and Year</p>
     <p class="small text-center text-muted">Current WordCloud: {{ month }} {{ year }}</p>
 
-    <form action="/" method="post">
+    <form action="/" method="post" id="date" form="date">
         <select class="month" name="month" id="month" value=datetime.now().month>
             <option value="0">Select a Month</option>
             <option value="1">January</option>
@@ -32,7 +32,7 @@
         </select>
         <input type="number" name="year" id="year" placeholder="Year" min="2000" max="2050" value="{{ year }}" autocomplete="off">
         <br>
-        <button class="btn btn-dark" id="view" type="submit">View</button>
+        <button class="btn btn-dark" id="view" form="date" type="submit">View</button>
     </form>
 
     <p class="small text-center text-muted">
@@ -40,9 +40,20 @@
       <br>
       <a href="/diary">New diary entry</a>
     </p>
+    <br>
+    <button class="accordion btn btn-dark">Make a Quick Entry</button>
+      <div class="panel">
+        <form action="/quickentry" id="quickentry" method="post">
+          <div class="mb-3">
+              <textarea autocomplete="off" class="form-control mx-auto w-auto" id="entry" name="entry" placeholder="" type="text" style=" min-width:50px; max-width:100%" cols = "100"></textarea>
+          </div>
+          <button class="btn btn-dark" type="submit" form="quickentry">Enter into Diary</button>
+        </form>
+      </div>
+  
 
 
-  <div id="cloud-container">
+  <div id="cloud-container" style="margin-top: 10px; margin-bottom: 10px;">
 
   </div>
 
@@ -53,10 +64,10 @@
   <!-- AnyChart Word Cloud Script -->
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
 
-  <script>
-    let text_from_db = "{{ text_db }}"
-  </script>
+  <script>let text_from_db = "{{ text_db }}" </script>
   <script src="/static/script.js"></script>
+  <script src="/static/wordcloud.js"></script>
+  <script src="/static/accordian.js"></script>
 
 
 

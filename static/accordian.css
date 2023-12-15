@@ -1,0 +1,19 @@
+.accordion {
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    font-size: 15px;
+    transition: 8s;
+  }
+  
+  .active, .accordion:hover {
+    background-color: #ccc; 
+  }
+  
+  .panel {
+    padding: 18px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+  }

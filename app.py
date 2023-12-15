@@ -102,7 +102,8 @@ def quickentry():
         if entry:
             db.execute("INSERT INTO userdata (text, user_id, day, month, year) VALUES (?);", (entry, session["user_id"], day, month, year))
         else:
-            apology = "No entry found"
+            return redirect('/diary')
+
     return redirect('/')
 
 ##############

@@ -62,19 +62,20 @@ def index():
 
 
     if request.method == "POST":
-        month = request.form.get('month')
-        year = request.form.get('year')
+        if request.form.get("form") == "date":
+            month = request.form.get('month')
+            year = request.form.get('year')
 
-        if int(month) == 0:
-            try:
-                text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
-            except:
-                text_db = "No text found from POST"
-        else:
-            try:
-                text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
-            except:
-                text_db = "No text found from POST"
+            if int(month) == 0:
+                try:
+                    text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND year=?;",session['user_id'],year)
+                except:
+                    text_db = "No text found from POST"
+            else:
+                try:
+                    text_db = db.execute("SELECT mood, text FROM userdata WHERE user_id=? AND month=? AND year=?;",session['user_id'],month,year)
+                except:
+                    text_db = "No text found from POST"
 
     text_string = ''
     for entry in text_db:
@@ -83,11 +84,21 @@ def index():
                 # Convert the value to string and remove all punctuations
                 text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
 
-    if len(text_string) == 0:
-        text_string = "Welcome to your WordCloud Diary"
-        apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+        if len(text_string) == 0:
+            text_string = "Welcome to your WordCloud Diary"
+            apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+        
+    #return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
-    return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
+@app.route("/quickentry", methods=["POST"])
+@login_required
+def quickentry():
+    if request.method == "POST":
+        
+        form = request.form.get('entry')
+        print(form)
+    return redirect('/')
+
 
 
 ##############

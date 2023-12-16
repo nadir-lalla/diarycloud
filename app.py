@@ -157,40 +157,19 @@ def diary():
 
     return render_template("diary.html", name=userid)
 
-
 #########################
-#       NOTES AND IMAGE 
-#       NOT IMPLEMENTED - FUTURE UPDATE
+#       SETTINGS
 #########################
-@app.route("/images", methods=["GET", "POST"])
+@app.route("/settings", methods=["GET", "POST"])
 @login_required
-def images():
-    """Page to input your thoughts"""
+def settings():
+    """Page to change settings
+    """
     userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+    print(userid)
 
-    if request.method == "POST":
-        note = request.form.get('note')
-        img = request.form.get("img")
+    return render_template("settings.html", name=userid)
 
-        if not note and not img:
-            return render_template("images.html", name=userid, apology="No Note or Image submitted. Try again!")
-
-        try:
-            date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
-        except:
-            date = datetime.now()
-
-        if not img:
-            img = False
-
-        day = date.day
-        month = date.month
-        year = date.year
-        # print("DD MM YYYY:  ",day, month, year,"\nNote: ",note,"\nimg Name: ", img )
-
-        db.execute("INSERT INTO userdata (image, user_id, day, month, year) VALUES (?);", (img, note, session["user_id"], day, month, year))
-
-    return render_template("images.html", name=userid)
 
 ##############
 #     VIEW

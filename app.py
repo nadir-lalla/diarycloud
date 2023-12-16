@@ -27,9 +27,10 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-##############
+#######################
 #     INDEX
-##############
+##      QUICK ENTRY
+#######################
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -106,9 +107,9 @@ def quickentry():
 
     return redirect('/')
 
-##############
+#######################
 #     DIARY
-##############
+#######################
 @app.route("/diary", methods=["GET", "POST"])
 @login_required
 def diary():
@@ -163,17 +164,17 @@ def diary():
 @app.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
-    """Page to change settings
-    """
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
-    print(userid)
+    """Page to change settings"""
+    
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+    username = db.execute("SELECT username FROM users WHERE id = ?;", session['user_id'])[0]['username']
+    
+    return render_template("settings.html", name=name, username=username)
 
-    return render_template("settings.html", name=userid)
 
-
-##############
-#     VIEW
-##############
+########################
+#          VIEW
+########################
 @app.route("/view", methods=["GET", "POST"])
 @login_required
 def view():
@@ -230,7 +231,7 @@ def view():
 #########################
 @app.route("/about")
 def about():
-    """How To page"""
+    """About Page"""
     return render_template("/about.html")
 
 

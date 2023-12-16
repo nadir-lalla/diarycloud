@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block apology %}
+<p class="apology">{{ apology }}</p>
+{% endblock %}
+
+{% block main %}
+<br>
+<h3>User Settings</h3>
+    <table class="table table-hover table-striped">
+        <thead style="background-color: black; color: white;">
+            <tr>
+                <th class="text-start col1">User Settings</th>
+                <th class="text-start col2">Current</th>
+                <th class="text-start col3">Change</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="text-start">Display Name</td>
+                <td class="text-start">{{ name }}</td>
+                <td class="text-start">Link to change display name</td>
+            </tr>
+
+            <tr>
+                <td class="text-start">Password</td>
+                <td class="text-start"></td>
+                <td class="text-start">Link to change password</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+<h3>WordCloud Settings</h3>
+    <table class="table table-hover table-striped">
+        <thead style="background-color: black; color: white;">
+            <tr>
+                <th class="text-start col1">WordCloud Settings</th>
+                <th class="text-start col2">Current</th>
+                <th class="text-start col3">Change</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="text-start">Display Name</td>
+                <td class="text-start">{{ name }}</td>
+                <td class="text-start">Link to change display name</td>
+            </tr>
+
+            <tr>
+                <td class="text-start">Password</td>
+                <td class="text-start"></td>
+                <td class="text-start">Link to change password</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

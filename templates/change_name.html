@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change Display Name
+{% endblock %}
+
+{% block apology %}
+<p class="apology">{{ apology }}</p>
+{% endblock %}
+
+{% block main %}
+<p>Your current Display Name is: {{ name }}</p><br>
+<p>Enter a new Display Name:</p>
+<form action="/change_name" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="display_name" name="display_name" placeholder="New Display Name" type="text" minlength="2">
+    </div>
+    <button class="btn btn-dark" type="submit">Change Name</button>
+</form>
+{% endblock %}

@@ -168,8 +168,63 @@ def settings():
     
     name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     username = db.execute("SELECT username FROM users WHERE id = ?;", session['user_id'])[0]['username']
-    
     return render_template("settings.html", name=name, username=username)
+
+@app.route("/change_name", methods=["GET", "POST"])
+@login_required
+def change_name():
+    """Page to change name"""
+    
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+
+    if request.method == "POST":
+        name = request.form.get("display_name")
+        if not name:
+            apology = "No name entered. Try again!"
+            return render_template("change_name.html", apology=apology)
+        else:
+            testname = db.execute("UPDATE users SET name = ? WHERE id = ?;", name, session['user_id'])
+            print(testname)
+            return redirect("/settings")
+    
+    return render_template("change_name.html", name=name)
+
+@app.route("/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    """Page to change password"""
+    
+    password_hash = db.execute("SELECT hash FROM users WHERE id = ?", session['user_id'])[0]['hash']
+    
+    if request.method == "POST":
+        old_password = request.form.get("old_password")
+        
+        new_password = request.form.get("new_password")
+        confirmation= request.form.get("confirmation")
+
+    
+        check = check_password_hash(password_hash, old_password)
+        
+        if not check:
+            apology = "Current Password Incorrect. Try Again!"
+            return render_template("change_password.html", apology=apology)
+        else:
+            if new_password != confirmation:
+                apology = "Passwords to not match"
+                return render_template("change_password.html", apology=apology)
+            else:
+                print("Enter code to change password in DB")
+                return redirect("/settings")
+        
+        
+    
+            
+
+        return redirect("/change_password")
+   
+    return render_template("change_password.html", name=name)
+
+    
 
 
 ########################

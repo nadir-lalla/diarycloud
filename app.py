@@ -183,8 +183,7 @@ def change_name():
             apology = "No name entered. Try again!"
             return render_template("change_name.html", apology=apology)
         else:
-            testname = db.execute("UPDATE users SET name = ? WHERE id = ?;", name, session['user_id'])
-            print(testname)
+            db.execute("UPDATE users SET name = ? WHERE id = ?;", name, session['user_id'])
             return redirect("/settings")
     
     return render_template("change_name.html", name=name)
@@ -198,11 +197,9 @@ def change_password():
     
     if request.method == "POST":
         old_password = request.form.get("old_password")
-        
         new_password = request.form.get("new_password")
         confirmation= request.form.get("confirmation")
 
-    
         check = check_password_hash(password_hash, old_password)
         
         if not check:
@@ -213,16 +210,10 @@ def change_password():
                 apology = "Passwords to not match"
                 return render_template("change_password.html", apology=apology)
             else:
-                print("Enter code to change password in DB")
+                db.execute("UPDATE users SET hash = ? WHERE id = ?;", generate_password_hash(new_password), session['user_id'])
                 return redirect("/settings")
         
-        
-    
-            
-
-        return redirect("/change_password")
-   
-    return render_template("change_password.html", name=name)
+    return render_template("change_password.html")
 
     
 

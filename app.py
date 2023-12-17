@@ -5,6 +5,7 @@ from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import re
+from jinja2 import Template
 
 from helpers import login_required
 
@@ -53,7 +54,7 @@ def index():
             for value in entry.values():
                 if value and value is not None:
                     # Convert the value to string and remove all punctuations
-                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
+                    text_string += re.sub(r'[^\w\s]', '', str(value).replace('\r\n', ' ')) + ' '
 
         if len(text_string) == 0:
             text_string = "Welcome to your WordCloud Diary"
@@ -63,7 +64,6 @@ def index():
 
 
     if request.method == "POST":
-        
         month = request.form.get('month')
         year = request.form.get('year')
 
@@ -83,11 +83,13 @@ def index():
             for value in entry.values():
                 if value and value is not None:
                     # Convert the value to string and remove all punctuations
-                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
+                    text_string += re.sub(r'[^\w\s]', '', str(value).replace('\r\n', ' ')) + ' '
 
         if len(text_string) == 0:
             text_string = "Welcome to your WordCloud Diary"
             apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+
+        print(text_string)
         
         return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
@@ -168,6 +170,7 @@ def settings():
     
     name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     username = db.execute("SELECT username FROM users WHERE id = ?;", session['user_id'])[0]['username']
+
     return render_template("settings.html", name=name, username=username)
 
 @app.route("/change_name", methods=["GET", "POST"])
@@ -215,7 +218,7 @@ def change_password():
         
     return render_template("change_password.html")
 
-    
+
 
 
 ########################
@@ -242,7 +245,7 @@ def view():
         if len(text_db) == 0:
             apology = "No entries found"
 
-        # print(text_db)
+        print(text_db)
         return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 
 
 

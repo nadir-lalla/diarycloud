@@ -13,6 +13,9 @@
     "whose", "why", "will", "with", "would", "you", "your", "yours", "yourself", "yourselves"];
 
   const textContent = text_from_db
+
+  
+
   const words = textContent.split(/\s+/);
 
   const filteredWords = words.filter(word => !commonWords.includes(word.toLowerCase()));
@@ -41,16 +44,16 @@
 
   var options = {
     list: uniqueWordsWithCounts,
-    shape: 'square',
+    shape: 'circle',
     ellipticity: 0.65,
-    fontWeight: "20",
-    color: "random-dark",
+    fontWeight: 'normal',
+    color: "random-light",
     minFontSize: 'small',
-    weightFactor: 30,
+    weightFactor: 10,
     drawOutOfBound: false,
     gridMinSize: Math.round(document.getElementById('cloud-container').clientWidth),
     rotateRatio: 0.5,
-    backgroundColor: "white"
+    backgroundColor: "black"
   }
 
   console.log(options);

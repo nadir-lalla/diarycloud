@@ -2,8 +2,6 @@
 
 ![Logo for website](/static/logo.png)
 
-#### Video Demo: https://youtu.be/bVmudMXybjs
-
 ## Introduction
 
 Welcome to CloudDiary. A place where you can keep track of your daily thoughts, moods and emotions. You are able to visualise your thoughts, moods and emotions

@@ -36,9 +36,9 @@ def after_request(response):
 @login_required
 def index():
     """Cover page of word map"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     apology = ""
-    # print(userid)
+    # print(name)
 
     if request.method == "GET":
         date = datetime.now()
@@ -60,7 +60,7 @@ def index():
             text_string = "Welcome to your WordCloud Diary"
             apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
 
-        return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
+        return render_template("index.html", name=name, text_db=text_string, year=year, apology=apology) 
 
 
     if request.method == "POST":
@@ -91,7 +91,7 @@ def index():
 
         print(text_string)
         
-        return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
+        return render_template("index.html", name=name, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
 @app.route("/quickentry", methods=["POST"])
 @login_required

@@ -1,6 +1,13 @@
 /* Imports Pippins from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
+th.col1 {
+  width: 40%;
+}
+
+th.col3 {
+  width: 20%;
+}
 
 /* Size for brand */
 nav .navbar-brand

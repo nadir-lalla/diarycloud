@@ -13,6 +13,7 @@
     "whose", "why", "will", "with", "would", "you", "your", "yours", "yourself", "yourselves"];
 
   const textContent = text_from_db
+  
   const words = textContent.split(/\s+/);
 
   const filteredWords = words.filter(word => !commonWords.includes(word.toLowerCase()));
@@ -38,19 +39,38 @@
   }
 
   const uniqueWordsWithCounts = countUniqueWords(filteredWords);
+  
+  let maxNameValue = 0;
+
+  uniqueWordsWithCounts.forEach((entry) => {
+    maxNameValue = Math.max(maxNameValue, entry[1]);
+  });
+  
+  const displayName = dName
+  maxNameValue = maxNameValue * 1.5
+
+  console.log(displayName, maxNameValue)
+
+  uniqueWordsWithCounts.push([displayName, maxNameValue]);
+
+
 
   var options = {
     list: uniqueWordsWithCounts,
-    shape: 'square',
-    ellipticity: 0.65,
-    fontWeight: "20",
+    shape: 'star',
+    ellipticity: 0.85,
+    fontWeight: 'normal',
     color: "random-dark",
     minFontSize: 'small',
-    weightFactor: 30,
+    weightFactor: 10,
     drawOutOfBound: false,
     gridMinSize: Math.round(document.getElementById('cloud-container').clientWidth),
+    gridSize: 8,
     rotateRatio: 0.5,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    fontFamily: '"Trebuchet MS","Arial Unicode MS", "Droid Fallback Sans", "sans-serif"',
+    shrinkToFit: true,
+    shuffle: false,
   }
 
   console.log(options);

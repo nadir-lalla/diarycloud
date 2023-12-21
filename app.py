@@ -5,6 +5,7 @@ from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import re
+from jinja2 import Template
 
 from helpers import login_required
 
@@ -27,16 +28,17 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-##############
+#######################
 #     INDEX
-##############
+##      QUICK ENTRY
+#######################
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
     """Cover page of word map"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
     apology = ""
-    # print(userid)
+    # print(name)
 
     if request.method == "GET":
         date = datetime.now()
@@ -52,17 +54,16 @@ def index():
             for value in entry.values():
                 if value and value is not None:
                     # Convert the value to string and remove all punctuations
-                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
+                    text_string += re.sub(r'[^\w\s]', '', str(value).replace('\r\n', ' ')) + ' '
 
         if len(text_string) == 0:
             text_string = "Welcome to your WordCloud Diary"
             apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
 
-        return render_template("index.html", name=userid, text_db=text_string, year=year, apology=apology) 
+        return render_template("index.html", name=name, text_db=text_string, year=year, apology=apology) 
 
 
     if request.method == "POST":
-        
         month = request.form.get('month')
         year = request.form.get('year')
 
@@ -82,13 +83,15 @@ def index():
             for value in entry.values():
                 if value and value is not None:
                     # Convert the value to string and remove all punctuations
-                    text_string += re.sub(r'[^\w\s]', '', str(value)) + ' '
+                    text_string += re.sub(r'[^\w\s]', '', str(value).replace('\r\n', ' ')) + ' '
 
         if len(text_string) == 0:
             text_string = "Welcome to your WordCloud Diary"
             apology = "Diary Empty. No WordCloud Available. Showing Default Cloud"
+
+        print(text_string)
         
-        return render_template("index.html", name=userid, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
+        return render_template("index.html", name=name, text_db=text_string, month=calendar.month_name[int(month)], year=year, apology=apology) 
 
 @app.route("/quickentry", methods=["POST"])
 @login_required
@@ -106,9 +109,9 @@ def quickentry():
 
     return redirect('/')
 
-##############
+#######################
 #     DIARY
-##############
+#######################
 @app.route("/diary", methods=["GET", "POST"])
 @login_required
 def diary():
@@ -157,44 +160,70 @@ def diary():
 
     return render_template("diary.html", name=userid)
 
-
 #########################
-#       NOTES AND IMAGE 
-#       NOT IMPLEMENTED - FUTURE UPDATE
+#       SETTINGS
 #########################
-@app.route("/images", methods=["GET", "POST"])
+@app.route("/settings", methods=["GET", "POST"])
 @login_required
-def images():
-    """Page to input your thoughts"""
-    userid = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+def settings():
+    """Page to change settings"""
+    
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
+    username = db.execute("SELECT username FROM users WHERE id = ?;", session['user_id'])[0]['username']
+
+    return render_template("settings.html", name=name, username=username)
+
+@app.route("/change_name", methods=["GET", "POST"])
+@login_required
+def change_name():
+    """Page to change name"""
+    
+    name = db.execute("SELECT name FROM users WHERE id = ?;", session['user_id'])[0]['name']
 
     if request.method == "POST":
-        note = request.form.get('note')
-        img = request.form.get("img")
+        name = request.form.get("display_name")
+        if not name:
+            apology = "No name entered. Try again!"
+            return render_template("change_name.html", apology=apology)
+        else:
+            db.execute("UPDATE users SET name = ? WHERE id = ?;", name, session['user_id'])
+            return redirect("/settings")
+    
+    return render_template("change_name.html", name=name)
 
-        if not note and not img:
-            return render_template("images.html", name=userid, apology="No Note or Image submitted. Try again!")
+@app.route("/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    """Page to change password"""
+    
+    password_hash = db.execute("SELECT hash FROM users WHERE id = ?", session['user_id'])[0]['hash']
+    
+    if request.method == "POST":
+        old_password = request.form.get("old_password")
+        new_password = request.form.get("new_password")
+        confirmation= request.form.get("confirmation")
 
-        try:
-            date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
-        except:
-            date = datetime.now()
+        check = check_password_hash(password_hash, old_password)
+        
+        if not check:
+            apology = "Current Password Incorrect. Try Again!"
+            return render_template("change_password.html", apology=apology)
+        else:
+            if new_password != confirmation:
+                apology = "Passwords to not match"
+                return render_template("change_password.html", apology=apology)
+            else:
+                db.execute("UPDATE users SET hash = ? WHERE id = ?;", generate_password_hash(new_password), session['user_id'])
+                return redirect("/settings")
+        
+    return render_template("change_password.html")
 
-        if not img:
-            img = False
 
-        day = date.day
-        month = date.month
-        year = date.year
-        # print("DD MM YYYY:  ",day, month, year,"\nNote: ",note,"\nimg Name: ", img )
 
-        db.execute("INSERT INTO userdata (image, user_id, day, month, year) VALUES (?);", (img, note, session["user_id"], day, month, year))
 
-    return render_template("images.html", name=userid)
-
-##############
-#     VIEW
-##############
+########################
+#          VIEW
+########################
 @app.route("/view", methods=["GET", "POST"])
 @login_required
 def view():
@@ -216,7 +245,7 @@ def view():
         if len(text_db) == 0:
             apology = "No entries found"
 
-        # print(text_db)
+        print(text_db)
         return render_template("view.html", name=userid, text_db=text_db, day=day, month=calendar.month_abbr[int(month)], year=year, apology=apology) 
 
 
@@ -251,7 +280,7 @@ def view():
 #########################
 @app.route("/about")
 def about():
-    """How To page"""
+    """About Page"""
     return render_template("/about.html")
 
 

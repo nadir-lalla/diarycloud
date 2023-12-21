@@ -13,6 +13,8 @@
     "whose", "why", "will", "with", "would", "you", "your", "yours", "yourself", "yourselves"];
 
   const textContent = text_from_db
+  const displayName = dName
+  let maxNameValue = 0;
   
   const words = textContent.split(/\s+/);
 
@@ -40,18 +42,16 @@
 
   const uniqueWordsWithCounts = countUniqueWords(filteredWords);
   
-  let maxNameValue = 0;
-
   uniqueWordsWithCounts.forEach((entry) => {
     maxNameValue = Math.max(maxNameValue, entry[1]);
   });
   
-  const displayName = dName
   maxNameValue = maxNameValue * 1.5
 
   console.log(displayName, maxNameValue)
-
-  uniqueWordsWithCounts.push([displayName, maxNameValue]);
+  
+  uniqueWordsWithCounts.unshift([displayName, maxNameValue]);
+  console.log(uniqueWordsWithCounts);
 
 
 

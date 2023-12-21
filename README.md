@@ -29,4 +29,5 @@ Execute a flask session using the following command:
 
 You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website
 
-***
+
+

@@ -197,7 +197,9 @@ def change_password():
     """Page to change password"""
     
     password_hash = db.execute("SELECT hash FROM users WHERE id = ?", session['user_id'])[0]['hash']
-    
+    username = db.execute("SELECT username  FROM users WHERE id = ?", session['user_id'])[0]['username']
+    print(username)
+
     if request.method == "POST":
         old_password = request.form.get("old_password")
         new_password = request.form.get("new_password")
@@ -211,6 +213,9 @@ def change_password():
         else:
             if new_password != confirmation:
                 apology = "Passwords to not match"
+                return render_template("change_password.html", apology=apology)
+            elif username == "guest":
+                apology = "Cannot change guest account password"
                 return render_template("change_password.html", apology=apology)
             else:
                 db.execute("UPDATE users SET hash = ? WHERE id = ?;", generate_password_hash(new_password), session['user_id'])

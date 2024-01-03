@@ -30,9 +30,4 @@ Execute a flask session using the following command:
 You will be prompted with a URL in the terminal. Hold CTRL and click the link to be redirect to the website
 
 ***
-<details>
-<summary>Do not wish to log in?</summary>
-You can use the guest account, by entering "guest" as the username and password.
-</details>
-
 
